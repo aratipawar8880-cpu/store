@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GANESH KIRANA STORE — Appasaheb T. Pawar</title>
+  <meta name="description" content="Ganesh Kirana Store - Local grocery store. Contact: 8888779089" />
+  <style>
+    :root{
+      --primary:#c0392b; /* warm Indian red */
+      --accent:#f39c12; /* saffron accent */
+      --muted:#777;
+      --bg:#fff;
+      --card:#fff;
+      --glass: rgba(255,255,255,0.85);
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#fff 0%, #fffef6 100%);color:#222}
+    header{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid #eee}
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+    .topbar{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px}
+    h1.store{margin:0;font-size:18px}
+    .contact{font-size:13px;color:var(--muted)}
+    nav{display:flex;gap:12px;align-items:center}
+    nav button{background:none;border:1px solid transparent;padding:8px 12px;border-radius:8px}
+    nav button:hover{border-color:#eee}
+
+    /* hero */
+    .hero{background:linear-gradient(90deg, rgba(240,240,240,0.6), rgba(255,255,255,0.6));padding:20px;border-bottom:1px solid #f0e6e6}
+    .hero-inner{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+    .hero-text{flex:1;min-width:220px}
+    .hero h2{margin:0;font-size:20px}
+    .banner{background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200"><rect fill="%23f7f0ec" width="100%" height="100%"/></svg>') center/cover no-repeat;border-radius:10px;padding:18px;min-width:220px}
+    .hero .cta{margin-top:12px}
+    .cta a{display:inline-block;background:var(--primary);color:#fff;padding:10px 14px;border-radius:8px;text-decoration:none}
+
+    /* search + filters */
+    .controls{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;align-items:center}
+    .search{flex:1;min-width:220px}
+    .search input{width:100%;padding:12px;border-radius:10px;border:1px solid #ddd}
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    .filters select{padding:10px;border-radius:8px;border:1px solid #ddd}
+
+    /* grid */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:520px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);padding:12px;border-radius:12px;border:1px solid #f0e0df;display:flex;gap:12px;align-items:center}
+    .thumb{width:72px;height:72px;border-radius:8px;background:#fafafa;display:flex;align-items:center;justify-content:center;border:1px solid #f0f0f0}
+    .info{flex:1}
+    .info h3{margin:0;font-size:16px}
+    .meta{color:var(--muted);font-size:13px}
+    .price{font-weight:700;color:var(--primary)}
+    .add{border:none;background:var(--accent);color:#fff;padding:8px 10px;border-radius:8px}
+
+    /* sidebar categories (mobile collapsible) */
+    .categories{display:flex;gap:8px;flex-wrap:wrap}
+    .cat-btn{padding:8px 10px;border-radius:8px;border:1px solid #eee;background:#fff}
+
+    /* footer */
+    footer{border-top:1px solid #eee;background:#fff;padding:18px;margin-top:24px}
+    footer .row{display:flex;gap:12px;flex-wrap:wrap}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* modal/editor */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);z-index:60}
+    .modal.open{display:flex}
+    .modal .panel{background:#fff;padding:18px;border-radius:12px;max-width:540px;width:100%}
+    label{display:block;font-size:13px;margin-top:8px}
+    input[type=text],input[type=number],select{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd}
+    .row-gap{display:flex;gap:8px}
+    .row-gap > *{flex:1}
+
+    .note{font-size:13px;color:var(--muted);margin-top:8px}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">GK</div>
+        <div>
+          <h1 class="store">GANESH KIRANA STORE</h1>
+          <div class="contact">Owner: Appasaheb Tukaram Pawar • Phone: <a href="tel:8888779089">8888779089</a></div>
+        </div>
+      </div>
+      <nav>
+        <button onclick="openEditor()">Edit Products</button>
+        <button onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">Contact</button>
+      </nav>
+    </div>
+    <div class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <h2>Welcome to your local kirana — freshness & trust since day 1</h2>
+          <p class="small">Daily essentials, groceries, spices and household items. Quick billing & neighbourhood prices.</p>
+          <div class="cta"><a href="tel:8888779089">Call / Order: 8888779089</a></div>
+        </div>
+        <div class="banner">
+          <strong>Ganesh Kirana Store</strong><br>
+          <small class="small">Open: Mon–Sun • 8:00 AM — 10:00 PM</small>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="controls">
+      <div class="search">
+        <input id="searchInput" placeholder="Search products (name, category)..." oninput="renderProducts()" />
+      </div>
+      <div class="filters">
+        <select id="categoryFilter" onchange="renderProducts()">
+          <option value="">All Categories</option>
+        </select>
+        <select id="sortBy" onchange="renderProducts()">
+          <option value="relevance">Sort: Relevance</option>
+          <option value="price_asc">Price: Low → High</option>
+          <option value="price_desc">Price: High → Low</option>
+          <option value="name_asc">Name: A → Z</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="categories" id="categories"></section>
+
+    <section id="catalog" class="grid" aria-live="polite"></section>
+
+    <div id="noResults" class="note" style="display:none">No products found. Try another search or category.</div>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div style="flex:1">
+          <strong>GANESH KIRANA STORE</strong>
+          <div class="small">Owner: Appasaheb Tukaram Pawar</div>
+          <div class="small">Phone: <a href="tel:8888779089">8888779089</a></div>
+        </div>
+        <div style="min-width:220px">
+          <div><strong>Shop Location</strong></div>
+          <div class="small">[Map placeholder] Near Ganesh Temple, Your City</div>
+        </div>
+        <div style="min-width:180px">
+          <div><strong>Opening Hours</strong></div>
+          <div class="small">Mon–Sun: 8:00 AM — 10:00 PM</div>
+        </div>
+      </div>
+      <div style="margin-top:12px" class="small">Fast-loading, mobile-friendly — built for quick browsing in local shops.</div>
+    </div>
+  </footer>
+
+  <!-- Modal: Product editor (stores to localStorage for easy updating) -->
+  <div id="editorModal" class="modal" role="dialog" aria-modal="true">
+    <div class="panel">
+      <h3>Manage Products</h3>
+      <div class="note">Add, edit or remove products. Changes saved to this browser (Local)</div>
+      <label>Action</label>
+      <select id="editorAction" onchange="onEditorAction()">
+        <option value="add">Add New Product</option>
+        <option value="edit">Edit Existing Product</option>
+        <option value="import">Import Sample List (Overwrite)</option>
+      </select>
+
+      <div id="editForm">
+        <label>Product ID (for edit/delete)</label>
+        <input id="prodId" type="text" placeholder="auto / existing id" />
+        <label>Name</label>
+        <input id="prodName" type="text" />
+        <label>Category</label>
+        <select id="prodCategory"></select>
+        <div class="row-gap">
+          <div>
+            <label>Price</label>
+            <input id="prodPrice" type="number" />
+          </div>
+          <div>
+            <label>Unit (eg: ₹ / kg / ltr / pack)</label>
+            <input id="prodUnit" type="text" />
+          </div>
+        </div>
+        <label>Image URL (optional)</label>
+        <input id="prodImage" type="text" />
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button onclick="saveProduct()" class="add">Save</button>
+        <button onclick="closeEditor()" style="padding:8px;border-radius:8px;border:1px solid #ddd;background:#fff">Close</button>
+        <button onclick="deleteProduct()" style="padding:8px;border-radius:8px;background:#fff;border:1px solid #ffdddd">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Product data (includes the 78 provided items + added items to exceed 100 total)
+    const SAMPLE_PRODUCTS = [
+      /* Grains */
+      {id:1,name:'Basmati Rice',category:'Grains',price:120,unit:'₹/kg'},
+      {id:2,name:'Kolam Rice',category:'Grains',price:60,unit:'₹/kg'},
+      {id:3,name:'Sona Masoori Rice',category:'Grains',price:55,unit:'₹/kg'},
+      {id:4,name:'Broken Rice',category:'Grains',price:40,unit:'₹/kg'},
+      {id:5,name:'Wheat Flour (Chakki Atta)',category:'Grains',price:35,unit:'₹/kg'},
+      {id:6,name:'Maida',category:'Grains',price:40,unit:'₹/kg'},
+      {id:7,name:'Suji (Rava)',category:'Grains',price:38,unit:'₹/kg'},
+      {id:8,name:'Poha (Thick)',category:'Grains',price:50,unit:'₹/kg'},
+      {id:9,name:'Poha (Thin)',category:'Grains',price:48,unit:'₹/kg'},
+      {id:10,name:'Sabudana',category:'Grains',price:80,unit:'₹/kg'},
+      
+      /* Pulses */
+      {id:11,name:'Toor Dal',category:'Pulses',price:130,unit:'₹/kg'},
+      {id:12,name:'Moong Dal',category:'Pulses',price:120,unit:'₹/kg'},
+      {id:13,name:'Masoor Dal',category:'Pulses',price:90,unit:'₹/kg'},
+      {id:14,name:'Chana Dal',category:'Pulses',price:75,unit:'₹/kg'},
+      {id:15,name:'Urad Dal',category:'Pulses',price:110,unit:'₹/kg'},
+      {id:16,name:'Rajma (Red)',category:'Pulses',price:140,unit:'₹/kg'},
+      {id:17,name:'Kabuli Chana',category:'Pulses',price:150,unit:'₹/kg'},
+      {id:18,name:'Green Gram',category:'Pulses',price:125,unit:'₹/kg'},
+      {id:19,name:'Black Chana',category:'Pulses',price:80,unit:'₹/kg'},
+      {id:20,name:'Horse Gram',category:'Pulses',price:85,unit:'₹/kg'},
+      
+      /* Oils & Ghee */
+      {id:21,name:'Sunflower Oil',category:'Oils & Ghee',price:150,unit:'₹/ltr'},
+      {id:22,name:'Soybean Oil',category:'Oils & Ghee',price:140,unit:'₹/ltr'},
+      {id:23,name:'Groundnut Oil',category:'Oils & Ghee',price:160,unit:'₹/ltr'},
+      {id:24,name:'Mustard Oil',category:'Oils & Ghee',price:155,unit:'₹/ltr'},
+      {id:25,name:'Coconut Oil',category:'Oils & Ghee',price:200,unit:'₹/ltr'},
+      {id:26,name:'Palm Oil',category:'Oils & Ghee',price:120,unit:'₹/ltr'},
+      {id:27,name:'Vanaspati Ghee',category:'Oils & Ghee',price:180,unit:'₹/kg'},
+      {id:28,name:'Cow Ghee',category:'Oils & Ghee',price:600,unit:'₹/kg'},
+      {id:29,name:'Buffalo Ghee',category:'Oils & Ghee',price:500,unit:'₹/kg'},
+      {id:30,name:'Olive Oil',category:'Oils & Ghee',price:800,unit:'₹/ltr'},
+      
+      /* Spices */
+      {id:31,name:'Turmeric Powder',category:'Spices',price:200,unit:'₹/kg'},
+      {id:32,name:'Red Chilli Powder',category:'Spices',price:300,unit:'₹/kg'},
+      {id:33,name:'Coriander Powder',category:'Spices',price:220,unit:'₹/kg'},
+      {id:34,name:'Jeera (Cumin Seeds)',category:'Spices',price:400,unit:'₹/kg'},
+      {id:35,name:'Mustard Seeds',category:'Spices',price:120,unit:'₹/kg'},
+      {id:36,name:'Black Pepper',category:'Spices',price:600,unit:'₹/kg'},
+      {id:37,name:'Cloves',category:'Spices',price:900,unit:'₹/kg'},
+      {id:38,name:'Cinnamon',category:'Spices',price:700,unit:'₹/kg'},
+      {id:39,name:'Cardamom',category:'Spices',price:1800,unit:'₹/kg'},
+      {id:40,name:'Bay Leaves',category:'Spices',price:300,unit:'₹/kg'},
+      
+      /* Sugar & Jaggery */
+      {id:41,name:'Sugar',category:'Sugar & Jaggery',price:45,unit:'₹/kg'},
+      {id:42,name:'Jaggery (Gur)',category:'Sugar & Jaggery',price:60,unit:'₹/kg'},
+      {id:43,name:'Mishri',category:'Sugar & Jaggery',price:90,unit:'₹/kg'},
+      {id:44,name:'Brown Sugar',category:'Sugar & Jaggery',price:120,unit:'₹/kg'},
+      
+      /* Snacks & Bakery */
+      {id:45,name:'Parle-G Biscuits',category:'Snacks',price:10,unit:'₹/pack'},
+      {id:46,name:'Marie Gold',category:'Snacks',price:30,unit:'₹/pack'},
+      {id:47,name:'Bourbon',category:'Snacks',price:40,unit:'₹/pack'},
+      {id:48,name:'Chips (Lays)',category:'Snacks',price:20,unit:'₹/pack'},
+      {id:49,name:'Kurkure',category:'Snacks',price:20,unit:'₹/pack'},
+      {id:50,name:'Haldiram\'s Mixture',category:'Snacks',price:100,unit:'₹/kg'},
+      {id:51,name:'Salted Peanuts',category:'Snacks',price:120,unit:'₹/kg'},
+      {id:52,name:'Popcorn',category:'Snacks',price:80,unit:'₹/kg'},
+      {id:53,name:'Rusk',category:'Snacks',price:40,unit:'₹/pack'},
+      {id:54,name:'Toast',category:'Snacks',price:50,unit:'₹/pack'},
+      
+      /* Beverages */
+      {id:55,name:'Tata Tea',category:'Beverages',price:250,unit:'₹/kg'},
+      {id:56,name:'Red Label Tea',category:'Beverages',price:280,unit:'₹/kg'},
+      {id:57,name:'Green Tea',category:'Beverages',price:350,unit:'₹/kg'},
+      {id:58,name:'Coffee (Nescafe)',category:'Beverages',price:450,unit:'₹/200g'},
+      {id:59,name:'Cold Drink (Coke 1.25L)',category:'Beverages',price:45,unit:'₹/btl'},
+      {id:60,name:'Pepsi 1.25L',category:'Beverages',price:45,unit:'₹/btl'},
+      {id:61,name:'Sprite 1.25L',category:'Beverages',price:45,unit:'₹/btl'},
+      {id:62,name:'Frooti 600ml',category:'Beverages',price:35,unit:'₹/btl'},
+      {id:63,name:'Real Juice 1L',category:'Beverages',price:100,unit:'₹/btl'},
+      {id:64,name:'Bournvita',category:'Beverages',price:300,unit:'₹/500g'},
+      
+      /* Dairy */
+      {id:65,name:'Amul Milk (1L)',category:'Dairy',price:55,unit:'₹/btl'},
+      {id:66,name:'Gokul Milk (1L)',category:'Dairy',price:52,unit:'₹/btl'},
+      {id:67,name:'Butter (Amul)',category:'Dairy',price:55,unit:'₹/100g'},
+      {id:68,name:'Paneer',category:'Dairy',price:280,unit:'₹/kg'},
+      {id:69,name:'Curd',category:'Dairy',price:60,unit:'₹/kg'},
+      {id:70,name:'Cheese Slices',category:'Dairy',price:120,unit:'₹/pack'},
+      
+      /* Household Essentials */
+      {id:71,name:'Salt (Tata)',category:'Household',price:25,unit:'₹/kg'},
+      {id:72,name:'Iodized Salt',category:'Household',price:28,unit:'₹/kg'},
+      {id:73,name:'Detergent Powder (Surf Excel)',category:'Household',price:120,unit:'₹/kg'},
+      {id:74,name:'Rin Soap',category:'Household',price:10,unit:'₹/bar'},
+      {id:75,name:'Dishwash Bar (Vim)',category:'Household',price:10,unit:'₹/pc'},
+      {id:76,name:'Harpic Toilet Cleaner',category:'Household',price:95,unit:'₹/500ml'},
+      {id:77,name:'Phenyl',category:'Household',price:50,unit:'₹/ltr'},
+      {id:78,name:'Agarbatti',category:'Household',price:30,unit:'₹/pack'},
+      
+      // Additional products to reach 110+ total
+      {id:79,name:'Toothpaste (Colgate)',category:'Personal Care',price:60,unit:'₹/tube'},
+      {id:80,name:'Toothbrush',category:'Personal Care',price:20,unit:'₹/pc'},
+      {id:81,name:'Shampoo (Head & Shoulders)',category:'Personal Care',price:180,unit:'₹/btl'},
+      {id:82,name:'Soap (Lux)',category:'Personal Care',price:25,unit:'₹/bar'},
+      {id:83,name:'Handwash (Dettol)',category:'Personal Care',price:120,unit:'₹/500ml'},
+      {id:84,name:'Sanitary Pads',category:'Personal Care',price:60,unit:'₹/pack'},
+      {id:85,name:'Face Wash',category:'Personal Care',price:120,unit:'₹/tube'},
+      {id:86,name:'Shaving Cream',category:'Personal Care',price:150,unit:'₹/btl'},
+      {id:87,name:'Deodorant',category:'Personal Care',price:140,unit:'₹/pc'},
+      {id:88,name:'Sunscreen',category:'Personal Care',price:200,unit:'₹/tube'},
+      
+      {id:89,name:'Liquid Detergent (Surf Excel Matic)',category:'Cleaning Items',price:200,unit:'₹/ltr'},
+      {id:90,name:'Floor Cleaner (Lizol)',category:'Cleaning Items',price:120,unit:'₹/ltr'},
+      {id:91,name:'Glass Cleaner',category:'Cleaning Items',price:90,unit:'₹/500ml'},
+      {id:92,name:'Mop (Cotton)',category:'Cleaning Items',price:250,unit:'₹/pc'},
+      {id:93,name:'Broom (Soft)',category:'Cleaning Items',price:80,unit:'₹/pc'},
+      {id:94,name:'Garbage Bags',category:'Cleaning Items',price:60,unit:'₹/pack'},
+      {id:95,name:'Air Freshener',category:'Cleaning Items',price:120,unit:'₹/pc'},
+      {id:96,name:'Scouring Pad',category:'Cleaning Items',price:20,unit:'₹/pc'},
+      {id:97,name:'Naphthalene Balls',category:'Cleaning Items',price:50,unit:'₹/pack'},
+      {id:98,name:'Izal Soap (Disinfectant)',category:'Cleaning Items',price:35,unit:'₹/bar'},
+      
+      {id:99,name:'Soya Chunks',category:'Snacks',price:120,unit:'₹/kg'},
+      {id:100,name:'Instant Noodles (Maggi)',category:'Snacks',price:12,unit:'₹/pack'},
+      {id:101,name:'Mango Pulp (Real)',category:'Beverages',price:150,unit:'₹/btl'},
+      {id:102,name:'Honey (Local)',category:'Beverages',price:300,unit:'₹/250g'},
+      {id:103,name:'Dry Coconut (Kopra)',category:'Grains',price:220,unit:'₹/kg'},
+      {id:104,name:'Semolina (Fine)',category:'Grains',price:40,unit:'₹/kg'},
+      {id:105,name:'Besan (Gram Flour)',category:'Grains',price:70,unit:'₹/kg'},
+      {id:106,name:'Coconut (Fresh)',category:'Dairy',price:60,unit:'₹/pc'},
+      {id:107,name:'Eggs (dozen)',category:'Dairy',price:90,unit:'₹/dozen'},
+      {id:108,name:'Cooking Coal (Small)',category:'Household',price:180,unit:'₹/bag'},
+      {id:109,name:'Battery (AA)',category:'Household',price:20,unit:'₹/pc'},
+      {id:110,name:'Bandage (Small)',category:'Personal Care',price:30,unit:'₹/pack'},
+      {id:111,name:'Mask (Disposable)',category:'Personal Care',price:50,unit:'₹/pack'},
+      {id:112,name:'Tissue Paper (Box)',category:'Household',price:90,unit:'₹/box'}
+    ];
+
+    // Use localStorage to persist edits (so store owner can update prices easily)
+    const STORAGE_KEY = 'ganesh_kirana_products_v1';
+
+    function loadProducts(){
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        try{ return JSON.parse(raw); }catch(e){return SAMPLE_PRODUCTS}
+      }
+      // initial seed
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE_PRODUCTS));
+      return SAMPLE_PRODUCTS;
+    }
+
+    let products = loadProducts();
+
+    // build category options
+    function getCategories(){
+      const set = new Set(products.map(p=>p.category));
+      return Array.from(set).sort();
+    }
+
+    function populateCategoryFilter(){
+      const sel = document.getElementById('categoryFilter');
+      sel.innerHTML = '<option value="">All Categories</option>' + getCategories().map(c => `<option value="${c}">${c}</option>`).join('');
+
+      // categories buttons
+      const catWrap = document.getElementById('categories');
+      catWrap.innerHTML = getCategories().map(c=>`<button class="cat-btn" onclick="selectCategory('${c}')">${c}</button>`).join('');
+
+      // editor categories
+      const pc = document.getElementById('prodCategory');
+      pc.innerHTML = getCategories().map(c=>`<option value="${c}">${c}</option>`).join('');
+    }
+
+    function selectCategory(c){
+      document.getElementById('categoryFilter').value = c; renderProducts(); window.scrollTo({top:document.getElementById('catalog').offsetTop-80, behavior:'smooth'});
+    }
+
+    function renderProducts(){
+      const q = (document.getElementById('searchInput').value||'').toLowerCase().trim();
+      const cat = document.getElementById('categoryFilter').value;
+      const sort = document.getElementById('sortBy').value;
+      let list = products.filter(p=>{
+        const matchQ = !q || (p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+        const matchC = !cat || p.category===cat;
+        return matchQ && matchC;
+      });
+
+      if(sort==='price_asc') list.sort((a,b)=>a.price-b.price);
+      else if(sort==='price_desc') list.sort((a,b)=>b.price-a.price);
+      else if(sort==='name_asc') list.sort((a,b)=>a.name.localeCompare(b.name));
+
+      const wrap = document.getElementById('catalog');
+      wrap.innerHTML = '';
+      if(list.length===0){ document.getElementById('noResults').style.display='block'; return; }
+      document.getElementById('noResults').style.display='none';
+
+      for(const p of list){
+        const el = document.createElement('div'); el.className='card';
+        el.innerHTML = `
+          <div class="thumb"> <div style="font-size:12px;text-align:center">${p.name.split(' ').slice(0,2).join(' ')} </div></div>
+          <div class="info">
+            <h3>${p.name}</h3>
+            <div class="meta">${p.category} • ${p.unit}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="price">₹ ${p.price}</div>
+            <div style="margin-top:8px"><button class="add" onclick="quickEdit(${p.id})">Edit</button></div>
+          </div>
+        `;
+        wrap.appendChild(el);
+      }
+    }
+
+    // Editor modal functions
+    function openEditor(){ document.getElementById('editorModal').classList.add('open'); }
+    function closeEditor(){ document.getElementById('editorModal').classList.remove('open'); }
+    function onEditorAction(){ const v=document.getElementById('editorAction').value; document.getElementById('prodId').disabled = (v!=='edit'); }
+
+    function saveProduct(){
+      const action = document.getElementById('editorAction').value;
+      const pid = Number(document.getElementById('prodId').value) || null;
+      const name = document.getElementById('prodName').value.trim();
+      const cat = document.getElementById('prodCategory').value;
+      const price = Number(document.getElementById('prodPrice').value)||0;
+      const unit = document.getElementById('prodUnit').value||'₹/unit';
+
+      if(action==='import'){
+        if(confirm('This will overwrite all products with the sample list. Continue?')){
+          products = SAMPLE_PRODUCTS.slice(); localStorage.setItem(STORAGE_KEY, JSON.stringify(products)); populateCategoryFilter(); renderProducts(); alert('Imported sample list.'); closeEditor();
+        }
+        return;
+      }
+
+      if(!name){ alert('Enter product name'); return; }
+      if(action==='add'){
+        const newId = Math.max(0,...products.map(p=>p.id))+1;
+        const newP = {id:newId,name,category:cat||'Uncategorized',price,unit};
+        products.push(newP);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+        populateCategoryFilter(); renderProducts(); alert('Product added'); closeEditor();
+        return;
+      }
+      if(action==='edit'){
+        const idx = products.findIndex(p=>p.id===pid);
+        if(idx===-1){ alert('Product id not found'); return; }
+        products[idx].name=name; products[idx].category=cat; products[idx].price=price; products[idx].unit=unit;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+        populateCategoryFilter(); renderProducts(); alert('Updated'); closeEditor();
+        return;
+      }
+    }
+
+    function deleteProduct(){
+      const pid = Number(document.getElementById('prodId').value)||null;
+      if(!pid){ alert('Enter valid product id to delete'); return; }
+      if(confirm('Delete product id '+pid+' ?')){
+        products = products.filter(p=>p.id!==pid);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+        populateCategoryFilter(); renderProducts(); alert('Deleted');
+      }
+    }
+
+    function quickEdit(id){
+      const p = products.find(x=>x.id===id); if(!p) return;
+      openEditor(); document.getElementById('editorAction').value='edit'; onEditorAction(); document.getElementById('prodId').value=p.id; document.getElementById('prodName').value=p.name; document.getElementById('prodCategory').value=p.category; document.getElementById('prodPrice').value=p.price; document.getElementById('prodUnit').value=p.unit;
+    }
+
+    // initialize
+    populateCategoryFilter(); renderProducts();
+
+    // small accessibility: esc to close modal
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeEditor(); });
+
+  </script>
+</body>
+</html>
